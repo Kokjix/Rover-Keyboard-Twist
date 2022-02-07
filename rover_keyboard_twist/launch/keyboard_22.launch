@@ -1,0 +1,17 @@
+<launch>
+    <!-- 
+    @author: Baran Berk Bağcı-->
+    <arg name="Topic" default="/drive_system/twist"/>
+    <param name="Forward" value="w" type="string" />
+    <param name="Backward" value="s" type="string" />
+    <param name="Left turn" value="a" type="string" />
+    <param name="Right turn" value="d" type="string" />
+    <param name="Right linear" value="e" type="string" />
+    <param name="Left linear" value="q" type="string" />
+    <!-- Run steering script-->
+    <node pkg="rover_keyboard_twist" name="steering_v2" type="steering_v2" output="screen" />
+    <!-- Run keyboard string-->
+    <node pkg="rover_keyboard_twist" name="keyboard_twist_sim" type="keyboard_twist_sim" output="screen" >
+        <param name="topic" value="$(arg Topic)" type="string" />
+    </node>
+</launch>

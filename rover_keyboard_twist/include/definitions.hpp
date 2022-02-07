@@ -5,6 +5,11 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 
+/*
+@author: Baran Berk Bağcı
+@date: 7.02.2022
+*/
+
 namespace
 {
 volatile std::sig_atomic_t gSignalStatus;
@@ -23,11 +28,13 @@ class KeyboardTwist
 {
 private:
     ros::Publisher twist_pub;
+    std::string cmd_topic;
 
 public:
     KeyboardTwist(ros::NodeHandle *nh)
     {
-        twist_pub = nh->advertise<geometry_msgs::Twist>("/drive_system/twist", 100);
+        nh->getParam("/keyboard_twist_sim/topic",cmd_topic);
+        twist_pub = nh->advertise<geometry_msgs::Twist>(cmd_topic, 100);
         std::signal(SIGINT, signal_handler);
         while (ros::ok)
         {
@@ -55,7 +62,7 @@ public:
         char key_input;
         key_input = getch();
         geometry_msgs::Twist twist;
-        ros::Rate rate(110);
+        ros::Rate rate(150);
         switch (key_input)
         {
             case 'w': case 'W':
