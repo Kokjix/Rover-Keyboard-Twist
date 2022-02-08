@@ -5,7 +5,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 
-/*
+/**
 @author: Baran Berk Bağcı
 @date: 7.02.2022
 */
@@ -13,38 +13,38 @@
 namespace
 {
 volatile std::sig_atomic_t gSignalStatus;
-}
+} // namespace for unbuffered char input
 
 
 void signal_handler(int signal)
 {
     gSignalStatus = signal;
-    std::cout <<"\n\n\n GOODBYE :(( \n\n\n";
-    exit(0);
+    std::cout <<"\n\n\n GOODBYE :(( \n\n\n"; // stream GOODBYE :((
+    exit(0); // successful program termination
 }
 
 
-class KeyboardTwist
+class KeyboardTwist // keyboard twist class
 {
 private:
-    ros::Publisher twist_pub;
-    std::string cmd_topic;
+    ros::Publisher twist_pub; // twist publisher
+    std::string cmd_topic; // cmd topic get argument from launch file
 
 public:
-    KeyboardTwist(ros::NodeHandle *nh)
+    KeyboardTwist(ros::NodeHandle *nh) // class constructor
     {
-        nh->getParam("/keyboard_twist_sim/topic",cmd_topic);
-        twist_pub = nh->advertise<geometry_msgs::Twist>(cmd_topic, 100);
-        std::signal(SIGINT, signal_handler);
-        while (ros::ok)
+        nh->getParam("/keyboard_twist_sim/topic",cmd_topic); // node handler get topic name from launch file argument
+        twist_pub = nh->advertise<geometry_msgs::Twist>(cmd_topic, 100); // twist publisher
+        std::signal(SIGINT, signal_handler); // signal handler
+        while (ros::ok) // while loop
         {
             ros::spinOnce();
-            run_keyboard();
+            run_keyboard(); // main method
         }
         
     };
     
-    int getch()
+    int getch() // unbuffered getchar function
     {
         static struct termios oldt, newt;
         tcgetattr(STDIN_FILENO, &oldt);  // save old settings
@@ -57,98 +57,78 @@ public:
         return c;
     }
 
-    void run_keyboard()
+    void run_keyboard() // main method
     {
-        char key_input;
-        key_input = getch();
-        geometry_msgs::Twist twist;
-        ros::Rate rate(150);
-        switch (key_input)
+        char key_input; // key value
+        key_input = getch(); // get key value from getch function
+        geometry_msgs::Twist twist; // declared twist
+        switch (key_input) // switch-case for twist object
         {
-            case 'w': case 'W':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.linear.x = 10;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 'w': case 'W': // w key pressed + linear x value 
+                twist.linear.x = 0.5;
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 's': case 'S':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.linear.x = -10;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 's': case 'S': // s key pressed - linear x value
+                twist.linear.x = -0.5;
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 'a': case 'A':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.angular.z = 2*3.1415926535;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 'a': case 'A': // a key pressed + angular value
+                twist.angular.z = 0.1;
+                std::cout << "\x1B[2J\x1B[H" << std::endl;  // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 'd': case 'D':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.angular.z = -2*3.1415926535;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 'd': case 'D': // d key pressed - angular value
+                twist.angular.z = -0.1;
+                std::cout << "\x1B[2J\x1B[H" << std::endl;  // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 'q': case 'Q':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.linear.y = 10;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 'q': case 'Q': // q key pressed + linear y value
+                twist.linear.y = 0.5;
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 'e': case 'E':
-                // twist.linear.x = 0;
-                // twist.linear.y = 0;
-                // twist.angular.z = 0;
-                twist.linear.y = -10;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
-                twist_pub.publish(twist);
+            case 'e': case 'E': // e key pressed - linear y value
+                twist.linear.y = -0.5;
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
                 break;
 
-            case 't': case 'T':
-                exit(0);
-
-            default:
+            case 't': case 'T': // t key pressed publish all twist alues 0 and then terminate script
                 twist.linear.x = 0;
                 twist.linear.y = 0;
                 twist.angular.z = 0;
-                std::cout << "\x1B[2J\x1B[H" << std::endl;
-                ROS_INFO_STREAM(twist);
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist
+                exit(0); // successful program termination
+
+            default: // when other q, w, e, a, s, d or t than keys pressed program publish all 0 twist 
+                twist.linear.x = 0;
+                twist.linear.y = 0;
+                twist.angular.z = 0;
+                std::cout << "\x1B[2J\x1B[H" << std::endl; // clear terminal
+                ROS_INFO_STREAM(twist); // ros info but stream
+                twist_pub.publish(twist); // publish twist 
                 break;
             }
 
-            // key_input = 'j';
-            // std::cout << key_input << std::endl;
-            //twist_pub.publish(twist);
-            rate.sleep();
-            twist.linear.x = 0;
-            twist.linear.y = 0;
-            twist.angular.z = 0;
-            twist_pub.publish(twist);
     }
     
     
-    ~KeyboardTwist()
+    ~KeyboardTwist() // destructor
     {
 
     };

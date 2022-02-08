@@ -209,6 +209,3 @@ add_definitions("-Wall -Wextra")
 
 add_executable( keyboard_twist_sim src/keyboard_twist_sim.cpp)
 target_link_libraries(keyboard_twist_sim ${catkin_LIBRARIES})
-
-add_executable(steering_v2 src/steering_v2.cpp)
-target_link_libraries(steering_v2 ${catkin_LIBRARIES})
