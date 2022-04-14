@@ -207,5 +207,8 @@ include_directories(
 # catkin_add_nosetests(test)
 add_definitions("-Wall -Wextra")
 
-add_executable( keyboard_twist_sim src/keyboard_twist_sim.cpp)
+add_executable( keyboard_twist_sim 
+src/keyboard_twist_sim.cpp
+include/definitions.hpp
+)
 target_link_libraries(keyboard_twist_sim ${catkin_LIBRARIES})
