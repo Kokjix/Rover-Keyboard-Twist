@@ -2,7 +2,7 @@
 Bu ros paketi rover'ın alt yürürünün klavye yardımı ile sürülmesi için yapılmıştır.
 ## Paketin kullanılması
 
-## Not: Gerçekte denemeden önce 22 rover ve 21 rover için twist değerleni değiştirin 22 sisteminde lineer hızların mutlak değeri 2.0 angular hızların mutlak değeri 1.0 olarak iyidir. 21 sistemi ve simülasyonlar için lineer hızlar 0.2 angular hızlar 0.1 iyidir.
+## Not: Gerçekte denemeden önce 22 rover ve 21 rover için twist değerlerini değiştirin 22 sisteminde lineer hızların mutlak değeri 2.0 angular hızların mutlak değeri 1.0 olarak iyidir. 21 sistemi ve simülasyonlar için lineer hızlar 0.2 angular hızlar 0.1 iyidir.
 
 Workspace'e aşağıdaki şekilde klonelanır.
 ```
